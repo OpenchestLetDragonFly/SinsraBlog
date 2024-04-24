@@ -23,4 +23,5 @@ public class CategoryController {
     public ResponseResult getCategoryList(){
         return categoryService.getCategoryList();
     }
+
 }

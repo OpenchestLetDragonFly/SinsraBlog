@@ -1,7 +1,7 @@
 package com.sinsra.vo;/*
- * ClassName: HotArticleVO
+ * ClassName: CategoryVO
  * Package: com.sinsra.vo
- * @Create: 2024/4/24 15:38
+ * @Create: 2024/4/24 17:35
  */
 
 import lombok.AllArgsConstructor;
@@ -11,10 +11,7 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class HotArticleVO {
-    private Long id;
-    //标题
-    private String title;
-    //访问量
-    private Long viewCount;
+public class CategoryVo {
+    Long id;
+    String name;
 }

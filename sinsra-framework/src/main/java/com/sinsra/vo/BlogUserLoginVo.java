@@ -1,7 +1,7 @@
 package com.sinsra.vo;/*
- * ClassName: CategoryVO
+ * ClassName: BlogUserVo
  * Package: com.sinsra.vo
- * @Create: 2024/4/24 17:35
+ * @Create: 2024/4/26 11:33
  */
 
 import lombok.AllArgsConstructor;
@@ -11,7 +11,8 @@ import lombok.NoArgsConstructor;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class CategoryVO {
-    Long id;
-    String name;
+public class BlogUserLoginVo {
+
+    private String token;
+    private UserInfoVo userInfo;
 }

@@ -13,7 +13,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class PageVO {
+public class PageVo {
     List rows;
     Long total;
 }

@@ -4,7 +4,6 @@ package com.sinsra.util;/*
  * @Create: 2024/4/24 15:55
  */
 
-import com.fasterxml.jackson.databind.util.BeanUtil;
 import org.springframework.beans.BeanUtils;
 
 import java.util.List;

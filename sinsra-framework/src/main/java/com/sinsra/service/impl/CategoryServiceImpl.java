@@ -10,7 +10,7 @@ import com.sinsra.mapper.CategoryMapper;
 import com.sinsra.service.ArticleService;
 import com.sinsra.service.CategoryService;
 import com.sinsra.util.BeanCopyUtils;
-import com.sinsra.vo.CategoryVO;
+import com.sinsra.vo.CategoryVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -46,7 +46,7 @@ public class CategoryServiceImpl extends ServiceImpl<CategoryMapper, Category> i
                 .collect(Collectors.toList());
 
 
-        List<CategoryVO> categoryVos = BeanCopyUtils.copyBeanList(categories, CategoryVO.class);
+        List<CategoryVo> categoryVos = BeanCopyUtils.copyBeanList(categories, CategoryVo.class);
         return ResponseResult.okResult(categoryVos);
     }
 }

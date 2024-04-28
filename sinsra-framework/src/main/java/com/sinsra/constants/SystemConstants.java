@@ -25,5 +25,14 @@ public class SystemConstants {
      */
     public static final int ARTICLE_STATUS_SIZE = 10;
 
-     public static final String STATUS_NORMAL = "0";
+    /**
+     * 分类表的分类状态是正常状态
+     */
+    public static final String STATUS_NORMAL = "0";
+
+    /**
+     * 友链状态为审核通过
+     */
+    public static final String LINK_STATUS_NORMAL = "0";
+
 }

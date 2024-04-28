@@ -5,14 +5,12 @@ package com.sinsra.controller;/*
  */
 
 import com.sinsra.domain.ResponseResult;
-import com.sinsra.domain.entity.Article;
 import com.sinsra.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/article")
@@ -34,8 +32,9 @@ public class ArticleController {
 
     }
 
-    public ResponseResult getArticleDetail(){
-
+    @GetMapping("/{id}")
+    public ResponseResult getArticleDetail(@PathVariable("id")Long id){
+        return articleService.getArticleDetail(id);
     }
 
 }

@@ -5,6 +5,7 @@ package com.sinsra.service.impl;/*
  */
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.core.injector.methods.SelectOne;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.sinsra.constants.SystemConstants;
@@ -16,14 +17,16 @@ import com.sinsra.service.ArticleService;
 
 import com.sinsra.service.CategoryService;
 import com.sinsra.util.BeanCopyUtils;
-import com.sinsra.vo.ArticleListVO;
-import com.sinsra.vo.HotArticleVO;
-import com.sinsra.vo.PageVO;
+import com.sinsra.vo.ArticleDetailVo;
+import com.sinsra.vo.ArticleListVo;
+import com.sinsra.vo.HotArticleVo;
+import com.sinsra.vo.PageVo;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 @Service
 public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> implements ArticleService {
@@ -43,7 +46,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         page(page,queryWrapper);
         List<Article> articles = page.getRecords();
 
-        List<HotArticleVO> hotArticles = BeanCopyUtils.copyBeanList(articles,HotArticleVO.class);
+        List<HotArticleVo> hotArticles = BeanCopyUtils.copyBeanList(articles, HotArticleVo.class);
 
         return ResponseResult.okResult(hotArticles);
     }
@@ -59,12 +62,29 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         Page<Article> page = new Page(pageNum,pageSize);
         page(page,queryWrapper);
         List<Article> articles = page.getRecords();
+        /*
         for (Article article : articles) {
             Category category = categoryService.getById(article.getCategoryId());
             article.setCategoryName(category.getName());
         }
-        List<ArticleListVO> articleListVos = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleListVO.class);
-        PageVO pageVO = new PageVO(articleListVos,page.getTotal());
+        */
+        articles.stream()
+                .map(article -> article.setCategoryName(categoryService.getById(article.getCategoryId()).getName()))
+                .collect(Collectors.toList());
+
+        List<ArticleListVo> articleListVos = BeanCopyUtils.copyBeanList(page.getRecords(), ArticleListVo.class);
+        PageVo pageVO = new PageVo(articleListVos,page.getTotal());
         return ResponseResult.okResult(pageVO);
+    }
+
+    @Override
+    public ResponseResult getArticleDetail(Long id) {
+        Article article = getById(id);
+        Long categoryId = article.getCategoryId();
+        Category category = categoryService.getById(categoryId);
+        if(category!=null)
+            article.setCategoryName(category.getName());
+        ArticleDetailVo articleDetailVo = BeanCopyUtils.copyBean(article,ArticleDetailVo.class);
+        return ResponseResult.okResult(articleDetailVo);
     }
 }

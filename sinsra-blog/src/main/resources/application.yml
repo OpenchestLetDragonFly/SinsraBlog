@@ -2,6 +2,10 @@ server:
   port: 7777
 
 spring:
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
   # 数据库连接信息
   datasource:
     url: jdbc:mysql://localhost:33066/ss_blog?characterEncoding=utf-8&serverTimezone=Asia/Shanghai
@@ -31,3 +35,9 @@ mybatis-plus:
       logic-not-delete-value: 0
       # 主键自增策略，以mysql数据库为准
       id-type: auto
+
+oss:
+  accessKey: A7PMrF4gXp-ioKQ_lYHhNTDsggupUvT1fie3YV7C
+  secretKey: hw4xtb98jBYKKULpYSJEIqD50jiEzNnz6N1bUcEX
+  bucket: sinsra-blog
+  dns: http://sd2ga2g2m.hn-bkt.clouddn.com/

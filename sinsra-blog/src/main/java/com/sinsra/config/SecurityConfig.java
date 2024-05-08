@@ -61,7 +61,12 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 // 对于登录接口 允许匿名访问
                 .antMatchers("/login").anonymous()
-                .antMatchers("/link/getAllLink").authenticated()
+                //为方便测试查询个人信息，我们把查询个人信息的接口设置为需要登录才能访问
+                .antMatchers("/user/userInfo").authenticated()
+                .antMatchers("/comment").authenticated()
+//                .antMatchers("/link/getAllLink").authenticated()
+                //退出登录的配置。如果'没登录'就调用'退出登录'，就会报错，报的错设置为'401 需要登录后操作'，也就是authenticated
+                .antMatchers("/logout").authenticated()
                 // 除上面外的所有请求全部不需要认证即可访问
                 .anyRequest().permitAll();
 
@@ -69,6 +74,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.addFilterBefore(jwtAuthenticationTokenFilter, UsernamePasswordAuthenticationFilter.class);
 
+        //配置异常处理器
         http.exceptionHandling()
                 .authenticationEntryPoint(authenticationEntryPoint)
                 .accessDeniedHandler(accessDeniedHandler);

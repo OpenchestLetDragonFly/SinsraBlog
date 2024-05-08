@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import java.util.Objects;
@@ -57,5 +58,23 @@ public class BlogLoginServiceImpl implements BlogLoginService {
         BlogUserLoginVo vo = new BlogUserLoginVo(jwt,userInfoVo);
         //封装响应返回
         return ResponseResult.okResult(vo);
+    }
+
+
+    @Override
+    public ResponseResult logout() {
+
+        //获取token，然后解析token值获取其中的userid。SecurityContextHolder是security官方提供的类
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        //LoginUser是我们写的类
+        LoginUser loginUser = (LoginUser) authentication.getPrincipal();
+
+        //获取userid
+        Long userid = loginUser.getUser().getId();
+
+        //在redis根据key来删除用户的value值，注意之前我们在存key的时候，key是加了'bloglogin:'前缀
+        redisCache.deleteObject("bloglogin:"+userid);
+        //封装响应返回
+        return ResponseResult.okResult();
     }
 }

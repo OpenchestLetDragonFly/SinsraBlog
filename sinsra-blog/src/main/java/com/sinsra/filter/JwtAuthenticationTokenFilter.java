@@ -31,7 +31,7 @@ import java.util.Objects;
 public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
 
     @Autowired
-    //RedisCache是我们在huanf-framework工程写的工具类，用于操作redis
+    //RedisCache是我们在sinsra-framework工程写的工具类，用于操作redis
     private RedisCache redisCache;
 
     @Override
@@ -45,7 +45,7 @@ public class JwtAuthenticationTokenFilter extends OncePerRequestFilter {
             filterChain.doFilter(request,response);
             return;
         }
-        //JwtUtil是我们在huanf-framework工程写的工具类。解析获取的token，把原来的密文解析为原文
+        //JwtUtil是我们在sinsra-framework工程写的工具类。解析获取的token，把原来的密文解析为原文
         Claims claims = null;
         try {
             claims = JwtUtils.parseJWT(token);

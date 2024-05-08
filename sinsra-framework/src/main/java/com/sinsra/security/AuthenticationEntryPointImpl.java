@@ -26,6 +26,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
     @Override
     public void commence(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
 
+
         e.printStackTrace();
 
         ResponseResult result = null;
@@ -38,6 +39,7 @@ public class AuthenticationEntryPointImpl implements AuthenticationEntryPoint {
             result = ResponseResult.errorResult(AppHttpCodeEnum.SYSTEM_ERROR.getCode(),"认证或授权失败");
         }
 
+        //响应给前端
         WebUtils.renderString(httpServletResponse, JSON.toJSONString(result));
 
     }

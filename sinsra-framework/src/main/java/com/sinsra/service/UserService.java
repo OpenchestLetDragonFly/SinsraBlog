@@ -1,6 +1,7 @@
 package com.sinsra.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.sinsra.domain.ResponseResult;
 import com.sinsra.domain.entity.User;
 
 
@@ -11,5 +12,11 @@ import com.sinsra.domain.entity.User;
  * @since 2024-04-25 17:08:12
  */
 public interface UserService extends IService<User> {
+
+    ResponseResult userInfo();
+
+    ResponseResult updateUserInfo(User user);
+
+    ResponseResult register(User user);
 
 }

@@ -3,6 +3,8 @@ package com.sinsra.domain.entity;
 import java.util.Date;
 
 import java.io.Serializable;
+
+import com.baomidou.mybatisplus.annotation.IdType;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -21,6 +23,8 @@ import com.baomidou.mybatisplus.annotation.TableName;
 @TableName("sys_user")
 public class User  {
     //主键@TableId
+    //主键，禁用雪花算法，使用mysql的主键自增策略
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     //用户名
@@ -51,5 +55,6 @@ public class User  {
     private Date updateTime;
     //删除标志（0代表未删除，1代表已删除）
     private Integer delFlag;
+
     
 }

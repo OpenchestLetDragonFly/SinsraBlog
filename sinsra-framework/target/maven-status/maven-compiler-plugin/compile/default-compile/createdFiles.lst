@@ -1,2 +1,4 @@
-com\sinsra\vo\ArticleListVO.class
-com\sinsra\vo\PageVO.class
+com\sinsra\service\impl\OSSUploadServiceImpl.class
+com\sinsra\vo\PageVo.class
+com\sinsra\service\UploadService.class
+com\sinsra\vo\ArticleListVo.class

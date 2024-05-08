@@ -4,13 +4,12 @@ package com.sinsra.controller;/*
  * @Create: 2024/4/23 21:53
  */
 
+import com.sinsra.annotation.mySystemLog;
 import com.sinsra.domain.ResponseResult;
 import com.sinsra.service.ArticleService;
+import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/article")
@@ -33,8 +32,16 @@ public class ArticleController {
     }
 
     @GetMapping("/{id}")
+    @mySystemLog(businessName = "根据文章id从mysql查询文章")//接口描述，根据Id找到文章
     public ResponseResult getArticleDetail(@PathVariable("id")Long id){
         return articleService.getArticleDetail(id);
     }
+
+    @PutMapping("/updateViewCount/{id}")
+    @mySystemLog(businessName = "文章阅读次数+1")//接口描述，用于'日志记录'功能
+    public ResponseResult updateViewCount(@PathVariable("id") Long id){
+        return articleService.updateViewCount(id);
+    }
+
 
 }

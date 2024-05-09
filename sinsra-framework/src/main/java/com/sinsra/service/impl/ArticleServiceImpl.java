@@ -48,7 +48,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
 
         //-------------------每调用这个方法就从redis查询文章的浏览量，展示在热门文章列表------------------------
-
+/*
         //获取redis中的浏览量，注意得到的viewCountMap是HashMap双列集合
         Map<String, Integer> viewCountMap = redisCache.getCacheMap("article:viewCount");
         //让双列集合调用entrySet方法即可转为单列集合，然后才能调用stream方法
@@ -58,7 +58,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 //把最终数据转为List集合
                 .collect(Collectors.toList());
         //把获取到的浏览量更新到mysql数据库中。updateBatchById是mybatisplus提供的批量操作数据的接口
-        updateBatchById(xxarticles);
+        updateBatchById(xxarticles);*/
 
 
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();

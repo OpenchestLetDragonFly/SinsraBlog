@@ -12,9 +12,8 @@ import com.sinsra.mapper.CommentMapper;
 import com.sinsra.service.CommentService;
 import com.sinsra.service.UserService;
 import com.sinsra.util.BeanCopyUtils;
-import com.sinsra.vo.CommentVo;
-import com.sinsra.vo.PageVo;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.sinsra.domain.vo.CommentVo;
+import com.sinsra.domain.vo.PageVo;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 

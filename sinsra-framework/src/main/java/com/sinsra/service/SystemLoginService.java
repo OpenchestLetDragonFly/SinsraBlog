@@ -10,4 +10,7 @@ import com.sinsra.domain.entity.User;
 public interface SystemLoginService {
     //登录
     ResponseResult login(User user);
+
+    ResponseResult logout();
+
 }

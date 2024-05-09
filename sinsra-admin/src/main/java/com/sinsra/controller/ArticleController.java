@@ -6,41 +6,53 @@ package com.sinsra.controller;/*
 
 import com.sinsra.annotation.mySystemLog;
 import com.sinsra.domain.ResponseResult;
+import com.sinsra.domain.dto.AddArticleDto;
+import com.sinsra.domain.dto.ArticleDto;
+import com.sinsra.domain.entity.Article;
+import com.sinsra.domain.vo.ArticleVo;
+import com.sinsra.domain.vo.PageVo;
 import com.sinsra.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/article")
+@RequestMapping("/content/article")
 public class ArticleController {
 
     @Autowired
     ArticleService articleService;
 
-    @GetMapping("/hotArticleList")
-    public ResponseResult hotArticleList(){
-        //查询热门文章
-        ResponseResult result = articleService.hotArticleList();
-        return result;
-    }
 
-    @GetMapping("/articleList")
-    public ResponseResult articleList(Integer pageNum, Integer pageSize, Long categoryId){
-        return articleService.articleList(pageNum, pageSize, categoryId);
-
-    }
-
-    @GetMapping("/{id}")
-    @mySystemLog(businessName = "根据文章id从mysql查询文章")//接口描述，根据Id找到文章
-    public ResponseResult getArticleDetail(@PathVariable("id")Long id){
-        return articleService.getArticleDetail(id);
-    }
-
-    @PutMapping("/updateViewCount/{id}")
-    @mySystemLog(businessName = "文章阅读次数+1")//接口描述，用于'日志记录'功能
-    public ResponseResult updateViewCount(@PathVariable("id") Long id){
-        return articleService.updateViewCount(id);
+    @PostMapping
+    public ResponseResult add(@RequestBody AddArticleDto article){
+        return articleService.add(article);
     }
 
 
+    @GetMapping("/list")
+    public ResponseResult list(Article article, Integer pageNum, Integer pageSize){
+        PageVo pageVo = articleService.selectArticlePage(article,pageNum,pageSize);
+        return ResponseResult.okResult(pageVo);
+    }
+
+    @GetMapping(value = "/{id}")
+    //①先查询根据文章id查询对应的文章
+    public ResponseResult getInfo(@PathVariable(value = "id")Long id){
+        ArticleVo article = articleService.getInfo(id);
+        return ResponseResult.okResult(article);
+    }
+
+    @PutMapping
+    //②然后才是修改文章
+    public ResponseResult edit(@RequestBody ArticleDto article){
+        articleService.edit(article);
+        return ResponseResult.okResult();
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseResult delete(@PathVariable Long id){
+        //直接使用mybatisplus提供的removeById方法
+        articleService.removeById(id);
+        return ResponseResult.okResult();
+    }
 }

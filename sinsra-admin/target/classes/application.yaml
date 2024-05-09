@@ -26,3 +26,9 @@ mybatis-plus:
       logic-delete-value: 1
       logic-not-delete-value: 0
       id-type: auto
+
+oss:
+  accessKey: A7PMrF4gXp-ioKQ_lYHhNTDsggupUvT1fie3YV7C
+  secretKey: hw4xtb98jBYKKULpYSJEIqD50jiEzNnz6N1bUcEX
+  bucket: sinsra-blog
+  dns: http://sd2ga2g2m.hn-bkt.clouddn.com/

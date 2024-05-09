@@ -19,11 +19,13 @@ import com.sinsra.mapper.ArticleMapper;
 import com.sinsra.service.ArticleService;
 
 import com.sinsra.service.ArticleTagService;
+import com.sinsra.service.ArticleVoService;
 import com.sinsra.service.CategoryService;
 import com.sinsra.util.BeanCopyUtils;
 import com.sinsra.util.RedisCache;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import javax.annotation.Resource;
@@ -39,7 +41,8 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     CategoryService categoryService;
     @Resource
     ArticleTagService  articleTagService;
-
+    @Autowired
+    private ArticleVoService articleVoService;
     @Autowired
     private RedisCache redisCache;
 
@@ -48,7 +51,6 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
 
         //-------------------每调用这个方法就从redis查询文章的浏览量，展示在热门文章列表------------------------
-/*
         //获取redis中的浏览量，注意得到的viewCountMap是HashMap双列集合
         Map<String, Integer> viewCountMap = redisCache.getCacheMap("article:viewCount");
         //让双列集合调用entrySet方法即可转为单列集合，然后才能调用stream方法
@@ -58,7 +60,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
                 //把最终数据转为List集合
                 .collect(Collectors.toList());
         //把获取到的浏览量更新到mysql数据库中。updateBatchById是mybatisplus提供的批量操作数据的接口
-        updateBatchById(xxarticles);*/
+        updateBatchById(xxarticles);
 
 
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper<>();
@@ -128,17 +130,21 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
     }
 
     @Override
+    @Transactional
     public ResponseResult add(AddArticleDto articleDto) {
-        Article article = BeanCopyUtils.copyBean(articleDto, Article.class);
-        save(article);
+        //添加 博客
+        ArticleVo articlevo = BeanCopyUtils.copyBean(articleDto, ArticleVo.class);
+        articleVoService.save(articlevo);
+
+
         List<ArticleTag> articleTags = articleDto.getTags().stream()
-                .map(tagId -> new ArticleTag(article.getId(), tagId))
+                .map(tagId -> new ArticleTag(articlevo.getId(), tagId))
                 .collect(Collectors.toList());
+
         //添加 博客和标签的关联
         articleTagService.saveBatch(articleTags);
         return ResponseResult.okResult();
     }
-
     @Override
     public PageVo selectArticlePage(Article article, Integer pageNum, Integer pageSize) {
         LambdaQueryWrapper<Article> queryWrapper = new LambdaQueryWrapper();
@@ -162,7 +168,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
 
     @Override
     //①先查询根据文章id查询对应的文章
-    public ArticleVo getInfo(Long id) {
+    public ArticleByIdVo getInfo(Long id) {
         Article article = getById(id);
         //获取关联标签
         LambdaQueryWrapper<ArticleTag> articleTagLambdaQueryWrapper = new LambdaQueryWrapper<>();
@@ -170,7 +176,7 @@ public class ArticleServiceImpl extends ServiceImpl<ArticleMapper, Article> impl
         List<ArticleTag> articleTags = articleTagService.list(articleTagLambdaQueryWrapper);
         List<Long> tags = articleTags.stream().map(articleTag -> articleTag.getTagId()).collect(Collectors.toList());
 
-        ArticleVo articleVo = BeanCopyUtils.copyBean(article,ArticleVo.class);
+        ArticleByIdVo articleVo = BeanCopyUtils.copyBean(article,ArticleByIdVo.class);
         articleVo.setTags(tags);
         return articleVo;
     }

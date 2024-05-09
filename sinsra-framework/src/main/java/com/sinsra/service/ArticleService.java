@@ -9,6 +9,7 @@ import com.sinsra.domain.ResponseResult;
 import com.sinsra.domain.dto.AddArticleDto;
 import com.sinsra.domain.dto.ArticleDto;
 import com.sinsra.domain.entity.Article;
+import com.sinsra.domain.vo.ArticleByIdVo;
 import com.sinsra.domain.vo.ArticleVo;
 import com.sinsra.domain.vo.PageVo;
 
@@ -28,7 +29,7 @@ public interface ArticleService extends IService<Article> {
 
 
     //修改文章-①根据文章id查询对应的文章
-    ArticleVo getInfo(Long id);
+    ArticleByIdVo getInfo(Long id);
 
     //修改文章-②然后才是修改文章
     void edit(ArticleDto article);

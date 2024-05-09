@@ -9,6 +9,7 @@ import com.sinsra.domain.ResponseResult;
 import com.sinsra.domain.dto.AddArticleDto;
 import com.sinsra.domain.dto.ArticleDto;
 import com.sinsra.domain.entity.Article;
+import com.sinsra.domain.vo.ArticleByIdVo;
 import com.sinsra.domain.vo.ArticleVo;
 import com.sinsra.domain.vo.PageVo;
 import com.sinsra.service.ArticleService;
@@ -38,7 +39,7 @@ public class ArticleController {
     @GetMapping(value = "/{id}")
     //①先查询根据文章id查询对应的文章
     public ResponseResult getInfo(@PathVariable(value = "id")Long id){
-        ArticleVo article = articleService.getInfo(id);
+        ArticleByIdVo article = articleService.getInfo(id);
         return ResponseResult.okResult(article);
     }
 
